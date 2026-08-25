@@ -14,6 +14,8 @@ function sendFile(res,p,type){let b=fs.readFileSync(p);res.writeHead(200,{'Conte
 const mime={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'application/javascript','.json':'application/json'};
 async function route(req,res){let u=new URL(req.url,'http://x'),p=u.pathname;
 try{
+// Public website files must be served before authentication.
+if(req.method==='GET' && !p.startsWith('/api/')){let f=path.join(__dirname,'public',p==='/'?'index.html':p);if(fs.existsSync(f) && fs.statSync(f).isFile())return sendFile(res,f,mime[path.extname(f)]||'text/plain')}
 if(req.method==='GET'&&p==='/api/config')return json(res,200,{projectName:'Good Mobile',fractions:FRACTIONS,leaderRoles:LEADER,adminRoles:ADMIN});
 if(req.method==='POST'&&p==='/api/login'){let x=await body(req),a=db.users.find(v=>v.login.toLowerCase()===String(x.login||'').toLowerCase());if(!a||a.blocked||!ok(String(x.password||''),a.password))return json(res,401,{error:'Неверный логин или пароль'});let sid=id();sessions.set(sid,a);res.writeHead(200,{'Set-Cookie':`sid=${sid}; HttpOnly; SameSite=Lax; Path=/; Max-Age=604800`,'Content-Type':'application/json'});return res.end(JSON.stringify({user:safe(a)}))}
 if(req.method==='POST'&&p==='/api/logout'){let u=user(req);let c=req.headers.cookie||'',m=c.match(/sid=([^;]+)/);if(m)sessions.delete(m[1]);res.writeHead(200,{'Set-Cookie':'sid=; Max-Age=0; Path=/'});return json(res,200,{ok:true})}
@@ -35,7 +37,6 @@ if(req.method==='DELETE'&&p.startsWith('/api/admin/users/')){if(!admin(req,res))
 if(req.method==='DELETE'&&p.startsWith('/api/news/')){if(!admin(req,res))return;db.news=db.news.filter(v=>v.id!==p.split('/').pop());save();return json(res,200,{ok:true})}
 if(req.method==='DELETE'&&p.startsWith('/api/events/')){if(!admin(req,res))return;db.events=db.events.filter(v=>v.id!==p.split('/').pop());save();return json(res,200,{ok:true})}
 if(req.method==='DELETE'&&p.startsWith('/api/norms/')){if(!admin(req,res))return;db.norms=db.norms.filter(v=>v.id!==p.split('/').pop());save();return json(res,200,{ok:true})}
-if(req.method==='GET'){let f=path.join(__dirname,'public',p==='/'?'index.html':p);if(fs.existsSync(f))return sendFile(res,f,mime[path.extname(f)]||'text/plain')}
 json(res,404,{error:'Not found'});
 }catch(e){console.error(e);json(res,500,{error:'Ошибка сервера'})}}
 http.createServer(route).listen(PORT,()=>console.log('Good Mobile panel on '+PORT));

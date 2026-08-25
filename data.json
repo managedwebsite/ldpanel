@@ -1,0 +1,66 @@
+{
+  "users": [
+    {
+      "id": "052d333e-8d95-402f-a530-1764620cafca",
+      "login": "test",
+      "name": "test",
+      "password": "829def9667cdb92726a04d29b92c495d:6d28f2957136f9f27070bd863f12fc07022741c1ac4136134862dd1219f6eb88",
+      "type": "admin",
+      "role": "Рук.проекта",
+      "fraction": "",
+      "avatar": "",
+      "warnings": 0,
+      "blocked": false,
+      "warningList": []
+    },
+    {
+      "id": "9fb081af-17de-40de-b80e-a59a4e48a95f",
+      "login": "lead",
+      "name": "lead",
+      "password": "0a2860887191e9d4ad998ee1170bc385:f23ba7ea346bab39c37fbe79af07fab675bb65915eb255a5b2e32b999d3ec6da",
+      "type": "leader",
+      "role": "Лидер",
+      "fraction": "ФСБ",
+      "avatar": "",
+      "warnings": 1,
+      "blocked": false,
+      "warningList": [
+        {
+          "id": "6e811b0d-98e7-474b-af14-be2a2ad1ded8",
+          "type": "Устный",
+          "reason": "Тестовая причина",
+          "date": "2026-08-25T22:38:21.110Z",
+          "issuedBy": "test"
+        }
+      ]
+    }
+  ],
+  "news": [
+    {
+      "id": "f17402e7-b566-4356-b22b-bd53e43f0b3f",
+      "title": "Добро пожаловать в Good Mobile",
+      "text": "Панель лидеров, заместителей и администрации запущена.",
+      "date": "2026-08-25T22:38:19.299Z",
+      "author": "Система"
+    }
+  ],
+  "events": [],
+  "tasks": [],
+  "norms": [],
+  "logs": [
+    {
+      "id": "247029e2-aeef-4099-9096-1a9dc1b6d53b",
+      "action": "warning",
+      "target": "lead",
+      "extra": "",
+      "date": "2026-08-25T22:38:21.110Z"
+    },
+    {
+      "id": "1fec9cea-ad56-45ad-8d7a-876711eb8545",
+      "action": "Создание лидера",
+      "target": "lead",
+      "extra": "ФСБ",
+      "date": "2026-08-25T22:38:20.325Z"
+    }
+  ]
+}
